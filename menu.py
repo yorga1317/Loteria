@@ -1,11 +1,27 @@
 from colorama import Fore, Style, Back, init
 import os
 import random
+import json
 
 init(autoreset=True)
 
 
 numeroDelusuario = []
+historial = {
+    "resultados":[
+        
+    ], 
+}
+
+try:
+    with open("historial.json", "r") as archivo:
+        historial = json.load(archivo)
+except FileNotFoundError:
+    historial = {"resultados": []}
+
+def guardar_historial_en_el_json():
+    with open("historial.json", "w") as file:
+        json.dump(historial, file, indent=4)
 
 def limpiarConsola():
     os.system("cls" if os.name == "nt" else "clear")
@@ -140,10 +156,13 @@ def numeros_ganadores():
 
     print(Fore.MAGENTA + f"\n🎯 Comparando {len(numeroDelusuario)} boletos contra {veces} combinaciones ganadoras...\n")
 
+    temporal = {"ganadores":[]}
     for juego in range(1, veces + 1):
+        
         print(Fore.YELLOW + f"\n🔔 Juego {juego}")
         numero_loteria = random.sample(range(0, 49), 6)
         numero_loteria_02 = [f"{n:02d}" for n in numero_loteria]
+        
         print("Números ganadores: " + " ".join(numero_loteria_02))
         print("-" * 50)
 
@@ -159,8 +178,41 @@ def numeros_ganadores():
             print(f"Boleto {idx}:        " + " ".join(colores_usuario))
             print(f"Aciertos por orden: {aciertos}")
             print("-" * 40)
+            temporal["ganadores"].append({"ganador":numero_loteria_02,"boleto":boleto, "acierto": aciertos, "juego": juego})
+    historial["resultados"].append(temporal)
+    print(historial["resultados"])
+    guardar_historial_en_el_json()
+    enterParaContinuar()
+
+def mostrar_historial():
+    if not historial["resultados"]:
+        print(Fore.YELLOW + "📭 No hay historial aún.")
+        enterParaContinuar()
+        return
+
+    print(Fore.MAGENTA + "\n📜 Historial de Juegos:\n")
+
+    for entrada in historial["resultados"]:
+        for registro in entrada["ganadores"]:
+            juego = registro["juego"]
+            numeros_ganadores = registro["ganador"]
+            boleto = registro["boleto"]
+            aciertos = registro["acierto"]
+
+            print(Fore.YELLOW + f"\n🎯 Juego {juego}")
+            print("Números ganadores: " + " ".join(numeros_ganadores))
+
+            colores_usuario = []
+            for i in range(6):
+                color = Fore.GREEN if boleto[i] == numeros_ganadores[i] else Fore.RED
+                colores_usuario.append(color + boleto[i] + Style.RESET_ALL)
+
+            print("Tu boleto:          " + " ".join(colores_usuario))
+            print(f"Aciertos por orden: {aciertos}")
+            print("-" * 50)
 
     enterParaContinuar()
+
 
 def mostrarMenu():
     print(Fore.WHITE + Back.BLUE + "=" * 50)
@@ -180,20 +232,24 @@ def mostrarMenu():
     opcion = input(Fore.MAGENTA + "Seleccione una opción: " + Style.RESET_ALL)
     return opcion
 
-while True:
-    limpiarConsola()
-    opcion = mostrarMenu()
-    if opcion == "1":
-        menudel1()
-    if opcion == "2":
-        numeros_ganadores()
-    if opcion == "3":
-        pass
-    if opcion == "4":
-        pass
-    if opcion == "5":
-        pass
-    elif opcion == "6":
-        print("chao")
-        break
+if __name__ == "__main__":
+    while True:
+        limpiarConsola()
+        opcion = mostrarMenu()
+        if opcion == "1":
+            menudel1()
+        if opcion == "2":
+            numeros_ganadores()
+        if opcion == "3":
+            pass
+        if opcion == "4":
+            mostrar_historial()
+        if opcion == "5":
+            pass
+        elif opcion == "6":
+            print("chao")
+            break
+        else:
+            print(Fore.RED + "👀 El Diablo que es eso 🔊 sea serio hermano")
+            enterParaContinuar()
     
