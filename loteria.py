@@ -17,7 +17,7 @@ for x in range(6):
         else:
             print(Fore.RED + '👀 El Diablo que es eso 🔊 Por favor ingrese un numero entre 0 y 99')
 
-numero_loteria = random.sample(range(0, 6), 6)
+numero_loteria = random.sample(range(0, 99), 6)
 numero_loteria_02 = [f"{n:02d}" for n in numero_loteria]
 
 colores_usuario = []
@@ -25,6 +25,17 @@ for i in range(6):
     color = Fore.GREEN if numeroDelusuario[i] == numero_loteria_02[i] else Fore.RED
     colores_usuario.append(color + numeroDelusuario[i] + Style.RESET_ALL)
 
+aciertos = 0 
+for i in range(6):
+    if numeroDelusuario[i] == numero_loteria_02[i]:
+        #print({numeroDelusuario[i]} == {numero_loteria_02[i]})
+        aciertos += 1
+    else:
+        #print(f"{numeroDelusuario[i]} ≠ {numero_loteria_02[i]}")
+        pass
+
+
 print()
 print("Tus números:        " + " ".join(colores_usuario))
 print("Números ganadores:  " + " ".join(numero_loteria_02))
+print(f"Aciertos por orden: {aciertos}")
