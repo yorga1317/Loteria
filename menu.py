@@ -213,10 +213,21 @@ def mostrar_historial():
 
     enterParaContinuar()
 
+def reglasDeLaloteria():
+    print(Fore.WHITE + Back.BLUE + "=" * 50)
+    print(Fore.WHITE + Back.BLUE + "=" + Style.RESET_ALL + Fore.MAGENTA + Style.BRIGHT + " " * 10 + "📝 Reglas de la loteria 🤑" + " " * 12 + Style.RESET_ALL + Fore.WHITE + Back.BLUE + "=" ) 
+    print(Fore.WHITE + Back.BLUE + "=" * 50)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "Eleccion de Numeros." + Style.RESET_ALL + " "*6 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + Style.BRIGHT + "·" + Fore.WHITE + "Cada jugador selecciona una combinación de números únicos dentro de un rango predefinido \n (por ejemplo, del 1 al 40)." + Style.RESET_ALL + " "*6 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "El jugador elige sus numeros al azar." + Style.RESET_ALL + " "*6 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "El jugador elige sus numeros al azar." + Style.RESET_ALL + " "*6 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "El jugador elige sus numeros al azar." + Style.RESET_ALL + " "*6 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+
+    enterParaContinuar()
 
 def mostrarMenu():
     print(Fore.WHITE + Back.BLUE + "=" * 50)
-    print(Fore.WHITE + Back.BLUE + "="  + Style.RESET_ALL + Fore.MAGENTA + " "* 15 + "Loteria de Kaneki" + " " *16 + Style.RESET_ALL + Fore.WHITE + Back.BLUE + "="  + Style.RESET_ALL )
+    print(Fore.WHITE + Back.BLUE + "="  + Style.RESET_ALL + Fore.MAGENTA + " " * 15 + "Loteria de Kaneki" + " " *16 + Style.RESET_ALL + Fore.WHITE + Back.BLUE + "="  + Style.RESET_ALL )
     print(Fore.WHITE + Back.BLUE + "=" * 50)
 
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "Elige tus numeros" + Style.RESET_ALL + " "*26 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
@@ -245,7 +256,7 @@ if __name__ == "__main__":
         if opcion == "4":
             mostrar_historial()
         if opcion == "5":
-            pass
+            reglasDeLaloteria()
         elif opcion == "6":
             print("chao")
             break
