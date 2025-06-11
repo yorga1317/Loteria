@@ -13,6 +13,14 @@ historial = {
     ], 
 }
 
+premios_por_orden = {
+    6: 1000000,
+    5: 10000,
+    4: 1000,
+    3: 100,
+    2: 10
+}
+
 try:
     with open("historial.json", "r") as archivo:
         historial = json.load(archivo)
@@ -175,10 +183,13 @@ def numeros_ganadores():
                 if boleto[i] == numero_loteria_02[i]:
                     aciertos += 1
 
+            premio = premios_por_orden.get(aciertos, 0)
+            print(f"Premio ganado: ${premio:,}")
+
             print(f"Boleto {idx}:        " + " ".join(colores_usuario))
             print(f"Aciertos por orden: {aciertos}")
             print("-" * 40)
-            temporal["ganadores"].append({"ganador":numero_loteria_02,"boleto":boleto, "acierto": aciertos, "juego": juego})
+            temporal["ganadores"].append({"ganador":numero_loteria_02,"boleto":boleto, "acierto": aciertos, "premio": premio, "juego": juego})
     historial["resultados"].append(temporal)
 
     guardar_historial_en_el_json()
@@ -198,6 +209,8 @@ def mostrar_historial():
             numeros_ganadores = registro["ganador"]
             boleto = registro["boleto"]
             aciertos = registro["acierto"]
+            premio = registro.get("premio", 0)
+
 
             print(Fore.YELLOW + f"\n🎮 juego {juego}")
             print(Fore.CYAN + "Números ganadores: " + Style.RESET_ALL + " ".join(numeros_ganadores))
@@ -209,9 +222,12 @@ def mostrar_historial():
 
             print(Fore.CYAN + "Tu boleto:          " + Style.RESET_ALL + " ".join(colores_usuario))
             print(Fore.CYAN + f"Aciertos por orden:{Style.RESET_ALL} {aciertos}")
+            print(Fore.CYAN + f"Premio ganado:{Style.RESET_ALL} ${premio:,}")
             print(Fore.WHITE + Style.BRIGHT + Back.GREEN + "-" * 50)
-
+            
     enterParaContinuar()
+
+
 
 def reglasDeLaloteria(): 
     limpiarConsola()
@@ -220,7 +236,7 @@ def reglasDeLaloteria():
     print(Fore.WHITE + Back.BLUE + "=" * 100)
 
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "Eleccion de Numeros." + Style.RESET_ALL + " "*73 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
-    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + Style.BRIGHT + " · " + Fore.WHITE + "Cada jugador selecciona una combinación de números únicos dentro de un rango predefinido" + " "*3 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL+ " "*7 + Fore.WHITE + Style.BRIGHT + "(por ejemplo, del 1 al 40)." + " "*64 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Style.RESET_ALL + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + " · " + Style.RESET_ALL + Fore.WHITE + Style.BRIGHT + "La cantidad de números por boleto suele ser fija, como por ejemplo 6 números por boleto." + Style.RESET_ALL + " "*3 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + Style.BRIGHT + " · " + Fore.WHITE + "Cada jugador selecciona una combinación de números únicos dentro de un rango predefinido" + " "*3 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL+ " "*7 + Fore.WHITE + Style.BRIGHT + "(por ejemplo, del 1 al 49)." + " "*64 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Style.RESET_ALL + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + " · " + Style.RESET_ALL + Fore.WHITE + Style.BRIGHT + "La cantidad de números por boleto suele ser fija, como por ejemplo 6 números por boleto." + Style.RESET_ALL + " "*3 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "2. " + Fore.WHITE + "Compra de Boletos." + Style.RESET_ALL + " "*75 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*4 + Fore.MAGENTA + Style.BRIGHT + " · " + Fore.WHITE + "Los boletos pueden ser:" + " "*68 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*8 + Fore.WHITE + Style.BRIGHT + "Manuales: el jugador elige los números." + " "*51 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + "\n" + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + Fore.WHITE + Style.BRIGHT + " "*8 + "Automáticos: los números son generados aleatoriamente por el sistema." + Style.RESET_ALL + " "*21 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "3. " + Fore.WHITE + "Sorteo de Números Ganadores." + Style.RESET_ALL + " "*65 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
@@ -252,10 +268,9 @@ def mostrarMenu():
 
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "1. " + Fore.WHITE + "Elige tus numeros" + Style.RESET_ALL + " "*26 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
     print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "2. " + Fore.WHITE + "Numeros Ganadores" + Style.RESET_ALL + " "*26 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
-    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "3. " + Fore.WHITE + "Premios" + Style.RESET_ALL + " "*36 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
-    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "4. " + Fore.WHITE + "Historial de juego" + Style.RESET_ALL + " "*25 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
-    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "5. " + Fore.WHITE + "Reglas de la loteria" + Style.RESET_ALL + " "*23 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
-    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "6. " + Fore.WHITE + "Salir" + Style.RESET_ALL + " "*38 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "3. " + Fore.WHITE + "Historial de juego" + Style.RESET_ALL + " "*25 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "4. " + Fore.WHITE + "Reglas de la loteria" + Style.RESET_ALL + " "*23 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
+    print(Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL + " "*2 + Fore.MAGENTA + Style.BRIGHT + "5. " + Fore.WHITE + "Salir" + Style.RESET_ALL + " "*38 + Fore.WHITE + Back.BLUE + "|" + Style.RESET_ALL)
     
     print(Fore.WHITE + Back.BLUE + "=" * 50)
     
@@ -272,17 +287,25 @@ if __name__ == "__main__":
         elif opcion == "2":
             numeros_ganadores()
         elif opcion == "3":
-            pass
-        elif opcion == "4":
             mostrar_historial()
-        elif opcion == "5":
+        elif opcion == "4":
             reglasDeLaloteria()
-        elif opcion == "6":
-            print("chao")
-            break
+        elif opcion == "5":
+            while True:
+                print(Style.BRIGHT + Fore.YELLOW + "El que no arriesga no gana.🤑")
+                respuesta = input(Fore.BLUE + Style.BRIGHT +"¿Deseas continuar? (si/no):  " + Style.RESET_ALL).strip().lower()
+                if respuesta == "si":
+                    print(Fore.YELLOW + Style.BRIGHT + "Eso campeon, Continuando con la loteria")
+                    break
+                elif respuesta == "no":
+                    print(Fore.WHITE + Style.BRIGHT + "Buenas suerte, Que regrese pronto")
+                    exit()
+                else:
+                    print(Fore.CYAN + "No sea toche mano elija entre si y no")
         else: 
             print(Fore.RED + "👀 El Diablo que es eso 🔊 sea serio hermano")
-            enterParaContinuar()
+                
+        enterParaContinuar()
         
 
 
